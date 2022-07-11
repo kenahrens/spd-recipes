@@ -1,0 +1,32 @@
+services:
+  goproxy:
+    image: gcr.io/speedscale/goproxy:v1.0
+    ports:
+      - "4140-4144:4140-4144"
+    env_file:
+      - ../config/${CONFIG}.env
+    environment:
+      - TLS_OUT_UNWRAP=true
+      - CAPTURE_MODE=proxy
+      - PROXY_TYPE=forward
+      - PROXY_PROTOCOL=socks
+      - APP_LABEL=proxy-forward-socks
+      - APP_POD_NAME=proxy-forward-socks
+      - APP_POD_NAMESPACE=${USER}
+    volumes:
+      - "/tmp/speedscale:/etc/ssl/speedscale"
+    logging:
+      options:
+        max-size: "1000k"
+        max-file: "10"
+  forwarder:
+    image: gcr.io/speedscale/forwarder:v1.0
+    env_file:
+      - ../config/${CONFIG}.env
+    environment:
+      - CLUSTER_NAME=desktop
+      - TELEMETRY_INTERVAL=0
+    logging:
+      options:
+        max-size: "1000k"
+        max-file: "10"

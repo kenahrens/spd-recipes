@@ -1,0 +1,20 @@
+services:
+  responder:
+    image: gcr.io/speedscale/responder:v1.0
+    env_file:
+      - ../config/${CONFIG}.env
+    environment:
+      - SCENARIO_ID=${SNAPSHOT_ID}
+      - TEST_CONFIG_ID=standard
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    volumes:
+      - "/tmp/speedscale:/etc/ssl/speedscale"
+  redis:
+    image: gcr.io/speedscale/redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_AOF_ENABLED=no
+    ports:
+      - "6379:6379"

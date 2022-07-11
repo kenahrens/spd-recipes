@@ -1,0 +1,12 @@
+# Do not upload config files
+config/*.env
+config/*.list
+config/*.yaml
+
+# Except the default
+!config/default.env
+
+# Do not upload local certs
+tls/*
+
+.DS_Store

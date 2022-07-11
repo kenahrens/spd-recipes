@@ -1,0 +1,16 @@
+services:
+  generator:
+    image: gcr.io/speedscale/generator:v1.0
+    env_file:
+      - ../config/${CONFIG}.env
+    environment:
+      - SCENARIO_ID=${SNAPSHOT_ID}
+      - TEST_CONFIG_ID=${TEST_CONFIG_ID}
+      - CUSTOM_URL=${CUSTOM_URL}
+  redis:
+    image: gcr.io/speedscale/redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_AOF_ENABLED=no
+    ports:
+      - "6379:6379"
